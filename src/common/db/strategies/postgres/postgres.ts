@@ -1,34 +1,48 @@
-import { Model } from "../../../../interfaces/model.interface"
 import ICrud from "../interfaces/interfaceCrud"
-import { CepModel } from "./schemas/cep.schema"
 
 export class Postgres<T> extends ICrud {
-    
-    model = null
-    sequelize = null
 
-    constructor(model: Model<T>) {
+    constructor(private model) {
         super()
-        this.model = model
     }
 
-    create = (cep: string) => {
-        console.log('O item foi salvo em Postgres')
-        this.model.create(cep)
+    create = async (item:any) => {
+        console.log('\n\n\nitem', item)
+        try {
+            await this.model.create(item)
+        } catch (error) {
+            console.log(error)
+            // apenas cadastra. Não precisa tratar exceção se CEP já existe
+        }
     }
 
     findAll = async () => {
-        console.log('Lista de CEPs foi retornada do banco postgres')
-        return await this.model.findAll({ raw: true })
+        try {
+            return await this.model.findAll({ raw: true })
+        } catch (error) {
+            return await error
+        }
     }
 
-    findById = async (cep: string) => {
-        console.log(`O CEP ${cep} foi retornado do banco postgres`)
+    findById = async (id: number) => {
         return await this.model.findAll({
             where: {
-                cep: `${cep}`
+                id: id
             }
         })
     }
+
+    findByCep = async (cep: string) => {
+        try {
+            return await this.model.findAll({
+                where: {
+                    cep: `${cep}`
+                }
+            })
+        } catch (error) {
+            return await error
+        }
+    }
+
 
 }

@@ -6,36 +6,33 @@ import { Log as LogModel } from '../common/db/strategies/mongodb/schemas/log.sch
 import { Postgres } from '../common/db/strategies/postgres/postgres';
 import { CepModel } from '../common/db/strategies/postgres/schemas/cep.schema';
 import { Router } from '../interfaces/router.interface';
-import { AlunoModel } from '../common/db/strategies/postgres/schemas/aluno.schema';
-import { CursoModel } from '../common/db/strategies/postgres/schemas/curso.schema';
-import { InstituicaoModel } from '../common/db/strategies/postgres/schemas/instituicao.schema';
 
 const url = "https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl";
 
-const cepPostgresModel = CepModel
-const cepMongoModel = LogModel
-
 class CepRouter extends Router {
     contextPostgres = null
-    contextMongo = null
+    //contextMongo = null
 
     constructor() {
         super()
-        this.contextPostgres = new Context(new Postgres(cepPostgresModel))
-        this.contextMongo = new Context(new MongoDB(cepMongoModel))
+        this.contextPostgres = new Context(new Postgres(CepModel))
+        //this.contextMongo = new Context(new MongoDB(LogModel))
     }
 
     getSoapDataAsync = async (url, args) => {
-        const client = await soap.createClientAsync(url)
-        return client.consultaCEPAsync(args, (err, result) => {
-            return result
-        })
+        try {
+            const client = await soap.createClientAsync(url)
+            return client.consultaCEPAsync(args, (err, result) => {
+                return result
+            })                
+        } catch (error) {
+            return error
+        }
     }
     
     applyRoutes(application: express.Application) {
         application.get('/cep', this.findAll)
-        application.get('/cep/:cep', this.findById)
-        application.get('cep/add', this.create)
+        application.get('/cep/:cep', this.findByCep)
     }
     
     findAll = async (req: express.Request, res: express.Response) => {
@@ -47,39 +44,25 @@ class CepRouter extends Router {
         }
     }
 
-    findById = async (req: express.Request, res: express.Response) => {
+    findByCep = async (req: express.Request, res: express.Response) => {
         const retorno = {}
         try {            
-            const args = {cep: parseInt(req.params.cep)}
-            const query = await this.contextPostgres.findById(args.cep)
+            const { cep } = req.params
+            const query = await this.contextPostgres.findByCep(cep)
             if (!query[0]){
-                const response = await this.getSoapDataAsync(url, args)
+                const response = await this.getSoapDataAsync(url, {cep: cep})
+                console.log(`CEP ${cep} foi consultado nos correios e retornou`, response[0].return)
                 retorno['result'] = response[0].return
                 this.contextPostgres.create(response[0].return)
-                this.contextMongo.create(response[0].return)
-                console.log('Inseriu no banco postgres')
             }else{
-                console.log('retornou na consulta do banco Postgres')
                 retorno['result'] = query
-                const log = ({
-                    timestamp: Date.now(),
-                    text: `CEP ${args.cep} retornado na consulta do banco Postgres`
-                })
-                
-                this.contextMongo.create(log)
             }
         } catch (error) {
-            //retorno['error'] = error// || error.cause.root.Envelope.Body.Fault.faultstring
-            throw new Error(error)
+            retorno['error'] = error?.cause?.root?.Envelope?.Body?.Fault?.faultstring
         }
+
         res.send(retorno)
     }
-
-    create = (req: express.Request, res: express.Response) => {
-        const { cep } = req.body
-        this.contextPostgres.create(cep)
-    }
-
 }
 
 export const cepRouter = new CepRouter()

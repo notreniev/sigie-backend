@@ -25,4 +25,8 @@ export default class ICrud {
     delete(id) {
         throw new NotImplementedException()
     }
+    
+    findByCep(cep){
+        throw new NotImplementedException()
+    }
 }

@@ -1,8 +1,4 @@
 import { config as configuration } from "../common/config";
-import { CepModel } from "./db/strategies/postgres/schemas/cep.schema";
-import { AlunoModel } from "./db/strategies/postgres/schemas/aluno.schema";
-import { CursoModel } from "./db/strategies/postgres/schemas/curso.schema";
-import { InstituicaoModel } from "./db/strategies/postgres/schemas/instituicao.schema";
 const Sequelize = require('sequelize');
 import { DBConnection } from './../interfaces/dbconnection.interface';
 import SequelizeType from "sequelize/types/lib/sequelize";

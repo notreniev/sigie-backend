@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-
+const bodyParser = require('body-parser');
 import { Router } from '../interfaces/router.interface';
 import { config } from './config';
 
@@ -13,6 +13,7 @@ export class Server {
   private load(): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
+        app.use(bodyParser.json())
         app.listen(this.config.port, () => resolve(app))
       } catch (error) {
         reject(error)

@@ -1,5 +1,24 @@
 import { postgresDB } from "../../../../db"
-const Sequelize = require('sequelize')
+import * as Sequelize from 'sequelize'
+
+export interface Aluno extends Sequelize.Model {
+    id: number,
+    nome: string,
+    cpf: string,
+    data_nascimento: string,
+    email: string,
+    celular: string,
+    endereco: string,
+    numero: number,
+    bairro: string,
+    cidade: string,
+    uf: string,
+    status: string
+}
+
+export interface AlunoModel extends Sequelize.Model<Aluno> {
+    findByCep(cep: string): Promise<Aluno>
+}
 
 export const AlunoModel = postgresDB.define('aluno', {
     id: {
@@ -59,3 +78,5 @@ export const AlunoModel = postgresDB.define('aluno', {
     freezeTableName: false,
     timestamps: false
 })
+
+export const Aluno = new AlunoModel()

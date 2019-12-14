@@ -1,5 +1,20 @@
 import { postgresDB } from "../../../../db"
-const Sequelize = require('sequelize')
+import * as Sequelize from 'sequelize'
+
+export interface Cep extends Sequelize.Model {
+    id: number,
+    bairro: string,
+    cep: string,
+    cidade: string,
+    complemento2: string,
+    end: string,
+    uf: string,
+}
+
+export interface CelModel extends Sequelize.Model<Cep> {
+    findByCep(cep: string): Promise<Cep>
+}
+
 
 export const CepModel = postgresDB.define('ceps', {
     id: {
@@ -39,3 +54,4 @@ export const CepModel = postgresDB.define('ceps', {
     timestamps: false
 })
 
+export const Cep = new CepModel()
