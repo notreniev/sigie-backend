@@ -1,5 +1,12 @@
 import { config as configuration } from "../common/config";
-const Sequelize = require('sequelize')
+import { CepModel } from "./db/strategies/postgres/schemas/cep.schema";
+import { AlunoModel } from "./db/strategies/postgres/schemas/aluno.schema";
+import { CursoModel } from "./db/strategies/postgres/schemas/curso.schema";
+import { InstituicaoModel } from "./db/strategies/postgres/schemas/instituicao.schema";
+const Sequelize = require('sequelize');
+import { DBConnection } from './../interfaces/dbconnection.interface';
+import SequelizeType from "sequelize/types/lib/sequelize";
+
 const Mongoose = require('mongoose')
 
 let postgresDb = null
@@ -11,7 +18,7 @@ if (!postgresDb) {
 
     config = configuration(process.env.NODE_ENV || 'development')
 
-    const sequelize = new Sequelize(
+    const sequelize: SequelizeType = new Sequelize(
         config.database,
         config.username,
         config.password,
@@ -22,7 +29,15 @@ if (!postgresDb) {
                 socketPath: config.dialectOptions.socketPath
             }
         })
+
+    sequelize.authenticate()
+        .then(() => {
+            console.log('+++++++++++++ Postgres rodando!!')
+        })
+        .catch(err => console.log('-------------- Erro na conexão com o postgres!!', err))
+
     postgresDb['sequelize'] = sequelize
+    postgresDb = <DBConnection>postgresDb
 }
 
 if (!mongoDb) {
@@ -30,11 +45,11 @@ if (!mongoDb) {
         useNewUrlParser: true
     }, function (error) {
         if (!error) return
-        console.log('>>>>>>>>> falha na conexão', error)
+        console.log('-------------- Falha na conexão com Mongo!!', error)
     })
 
     mongoDb = Mongoose.connection
-    mongoDb.once('open', () => console.log('>>>>>>>> database rodando!!!'))
+    mongoDb.once('open', () => console.log('+++++++++++++ Mongo rodando!!'))
     mongoDb['connection'] = mongoDb
 }
 

@@ -2,7 +2,7 @@ export const config = (env: string) => ({
     "development": {
         "username": "root",
         "password": "root",
-        "database": "dnedb",
+        "database": "sgidb",
         "host": "localhost",
         "pghost": "localhost", //postgres
         "mghost":"localhost", //mongo
@@ -16,11 +16,11 @@ export const config = (env: string) => ({
     "homologation": {
         "username": "root",
         "password": "root",
-        "database": "dnedb",
+        "database": "sgidb",
         "host": "localhost",
         "pghost": "postgres",
         "mghost":"mongo",
-        "dialect": "mysql",
+        "dialect": "postgres",
         "dialectOptions": {
             "socketPath": undefined
         },
@@ -31,14 +31,14 @@ export const config = (env: string) => ({
     "production": {
         "username": "root",
         "password": "root",
-        "database": "dnedb",
+        "database": "sgidb",
         "host": "localhost",
         "mghost":"mongo",
         "pghost": "postgres",
+        "dialect": "postgres",
         "dialectOptions": {
             "socketPath": undefined
         },
-        "dialect": "mysql",
         "debug": false,
         "port": 5000
     }

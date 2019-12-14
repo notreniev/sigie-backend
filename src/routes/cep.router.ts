@@ -6,6 +6,9 @@ import { Log as LogModel } from '../common/db/strategies/mongodb/schemas/log.sch
 import { Postgres } from '../common/db/strategies/postgres/postgres';
 import { CepModel } from '../common/db/strategies/postgres/schemas/cep.schema';
 import { Router } from '../interfaces/router.interface';
+import { AlunoModel } from '../common/db/strategies/postgres/schemas/aluno.schema';
+import { CursoModel } from '../common/db/strategies/postgres/schemas/curso.schema';
+import { InstituicaoModel } from '../common/db/strategies/postgres/schemas/instituicao.schema';
 
 const url = "https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl";
 
@@ -18,7 +21,6 @@ class CepRouter extends Router {
 
     constructor() {
         super()
-        cepPostgresModel.sync()
         this.contextPostgres = new Context(new Postgres(cepPostgresModel))
         this.contextMongo = new Context(new MongoDB(cepMongoModel))
     }

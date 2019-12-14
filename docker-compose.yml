@@ -26,9 +26,9 @@ services:
     environment: 
       POSTGRES_USER: "root"
       POSTGRES_PASSWORD: "root"
-      POSTGRES_DB: "dnedb"
+      POSTGRES_DB: "sgidb"
     volumes:
-      - ~/dbdata:/var/lib/postgresql/data
+      - ~/dbsgidata:/var/lib/postgresql/data
 
   mongo:
     image: mongo
@@ -39,7 +39,7 @@ services:
     environment: 
       MONGO_INITDB_ROOT_USERNAME: "root"
       MONGO_INITDB_ROOT_PASSWORD: "root"
-      MONGO_INITDB_DATABASE: "dnedb"
+      MONGO_INITDB_DATABASE: "sgidb"
     
   adminer:
     image: adminer
@@ -64,7 +64,4 @@ services:
     links:
       - mongo
 
-    #docker exec -it dne-node-api_mongo_1 mongo --host localhost -u root -p root --authenticationDatabase admin --eval "db.getSiblingDB('dnedb').createUser({user: 'root', pwd: 'root', roles: [{role: 'readWrite', db: 'dnedb'}]})"
-
-    #consigo rodar um docker exec no docker-compose ?
-    #consigo rodar um RUN dentro de um docker-compose
+    #docker exec -it sigie-node-api_mongo_1 mongo --host localhost -u root -p root --authenticationDatabase admin --eval "db.getSiblingDB('sgidb').createUser({user: 'root', pwd: 'root', roles: [{role: 'readWrite', db: 'sgidb'}]})"

@@ -1,41 +1,61 @@
 import { postgresDB } from "../../../../db"
 const Sequelize = require('sequelize')
 
-export const CepModel = postgresDB.define('ceps', {
+export const AlunoModel = postgresDB.define('aluno', {
     id: {
         type: Sequelize.INTEGER,
         allowNull: true,
         primaryKey: true,
         autoIncrement: true
     },
-    bairro: {
+    nome: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    cep: {
+    cpf: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
     },
-    cidade: {
+    data_nascimento: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    complemento2: {
+    email: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true
+    },
+    celular: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    end: {
+    endereco: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    numero: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    bairro: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    cidade: {
         type: Sequelize.STRING,
         allowNull: false
     },
     uf: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    status: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 }, {
-    tableName: 'tbCeps',
+    tableName: 'tbAluno',
     freezeTableName: false,
     timestamps: false
 })
-

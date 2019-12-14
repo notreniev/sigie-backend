@@ -1,5 +1,6 @@
 import { Model } from "../../../../interfaces/model.interface"
 import ICrud from "../interfaces/interfaceCrud"
+import { CepModel } from "./schemas/cep.schema"
 
 export class Postgres<T> extends ICrud {
     
