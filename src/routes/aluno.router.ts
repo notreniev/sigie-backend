@@ -22,10 +22,10 @@ class AlunoRouter extends Router {
         application.get('/aluno/:id', this.findById)
         application.post('/aluno', this.create)
         application.patch('/aluno/:id', this.update)
-        application.delete('/aluno', this.delete)
+        application.delete('/aluno/:id', this.delete)
     }
 
-    findAll = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    findAll = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         this.contextPostgres.findAll()
             .then(this.renderAll(res, next))
             .catch(next)
@@ -53,8 +53,11 @@ class AlunoRouter extends Router {
             .catch(next)
     }
 
-    delete = (req: express.Request, res: express.Response) => {
-        res.json('Não implementado!')
+    delete = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        const { id } = req.params
+        this.contextPostgres.delete(id)
+            .then(this.render(res, next))
+            .catch(next)
     }
 }
 

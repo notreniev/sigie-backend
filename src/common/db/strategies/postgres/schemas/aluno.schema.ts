@@ -17,7 +17,7 @@ export interface Aluno extends Sequelize.Model {
 }
 
 export interface AlunoModel extends Sequelize.Model<Aluno> {
-    findByCep(cep: string): Promise<Aluno>
+
 }
 
 export const AlunoModel = postgresDB.define('aluno', {
@@ -78,5 +78,3 @@ export const AlunoModel = postgresDB.define('aluno', {
     freezeTableName: false,
     timestamps: false
 })
-
-export const Aluno = new AlunoModel()

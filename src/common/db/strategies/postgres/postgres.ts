@@ -7,11 +7,10 @@ export class Postgres<T> extends ICrud {
     }
 
     create = async (item: any) => {
-        console.log('\n\n\nitem', item)
         try {
-            await this.model.create(item)
+            return await this.model.create(item)
         } catch (error) {
-            console.log(error)
+            //console.log(error)
             // apenas cadastra. Não precisa tratar exceção se CEP já existe
         }
     }
@@ -25,11 +24,15 @@ export class Postgres<T> extends ICrud {
     }
 
     findById = async (id: number) => {
-        return await this.model.findAll({
+        const response = await this.model.findAll({
+            limit: 1,
+            raw: true,
             where: {
                 id: id
             }
         })
+
+        return response[0]
     }
 
     findByCep = async (cep: string) => {
@@ -51,6 +54,18 @@ export class Postgres<T> extends ICrud {
             return await this.model.update(item, where, options)
         } catch (error) {
             return await error
+        }
+    }
+
+    delete = async (id: number) => {
+        try {
+            return await this.model.destroy({
+                where: {
+                    id: id
+                }
+            })
+        } catch (error) {
+            console.log('error ao tentar deletar ' + id, error)
         }
     }
 
