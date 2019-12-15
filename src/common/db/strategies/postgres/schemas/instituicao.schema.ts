@@ -13,9 +13,10 @@ export const InstituicaoModel = postgresDB.define('instituicao', {
         allowNull: false,
         unique: true
     },
-    duracao: {
+    cnpj: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     status: {
         type: Sequelize.STRING,

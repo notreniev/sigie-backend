@@ -1,7 +1,7 @@
 import express = require('express')
 import { EventEmitter } from "events";
 
-const notFound = {code: 404, message: 'Não encontrado!'}
+const notFound = {code: 404, message: 'Nenhum registro encontrado!'}
 
 export abstract class Router extends EventEmitter {
     abstract applyRoutes(application: express.Application)
