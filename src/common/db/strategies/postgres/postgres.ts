@@ -6,7 +6,7 @@ export class Postgres<T> extends ICrud {
         super()
     }
 
-    create = async (item:any) => {
+    create = async (item: any) => {
         console.log('\n\n\nitem', item)
         try {
             await this.model.create(item)
@@ -16,7 +16,7 @@ export class Postgres<T> extends ICrud {
         }
     }
 
-    findAll = async () => {
+    findAll = async (): Promise<any> => {
         try {
             return await this.model.findAll({ raw: true })
         } catch (error) {
@@ -39,6 +39,16 @@ export class Postgres<T> extends ICrud {
                     cep: `${cep}`
                 }
             })
+        } catch (error) {
+            return await error
+        }
+    }
+
+    update = async (id, item) => {
+        const where = { where: { id: id } }
+        const options = { multi: false }
+        try {
+            return await this.model.update(item, where, options)
         } catch (error) {
             return await error
         }

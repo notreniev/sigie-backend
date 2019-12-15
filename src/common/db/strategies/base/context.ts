@@ -1,14 +1,13 @@
 import ICrud from "../interfaces/interfaceCrud"
 
 export class Context extends ICrud {
-    database
-    constructor(protected strategy) {
+    
+    constructor(protected database) {
         super()
-        this.database = strategy
     }
 
-    findAll() {
-        return this.database.findAll()
+    findAll = async () => {
+        return await this.database.findAll()
     }
 
     create(item) {

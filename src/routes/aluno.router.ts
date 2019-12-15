@@ -1,5 +1,5 @@
 import { Router } from "../interfaces/router.interface";
-import express = require('express')
+import * as express from 'express'
 import { Application } from "express";
 import { Context } from "../common/db/strategies/base/context";
 import { AlunoModel } from "../common/db/strategies/postgres/schemas/aluno.schema";
@@ -21,50 +21,36 @@ class AlunoRouter extends Router {
         application.get('/aluno', this.findAll)
         application.get('/aluno/:id', this.findById)
         application.post('/aluno', this.create)
-        application.patch('/aluno', this.update)
+        application.patch('/aluno/:id', this.update)
         application.delete('/aluno', this.delete)
     }
 
-    findAll = async (req: express.Request, res: express.Response) => {
-        try {
-            const response = await this.contextPostgres.findAll()
-            if (response[0]) {
-                res.status(200).json(response)
-            } else {
-                res.status(404).json({ code: res.statusCode, message: "Nenhum resultado encontrado" })
-            }
-        } catch (error) {
-            res.status(500).json({ code: res.statusCode, error: error })
-        }
+    findAll = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        this.contextPostgres.findAll()
+            .then(this.renderAll(res, next))
+            .catch(next)
     }
 
-    findById = async (req: express.Request, res: express.Response) => {
+    findById = (req: express.Request, res: express.Response, next: express.NextFunction) => {
         const { id } = req.params
-        try {
-            const response = await this.contextPostgres.findById(id)
-            if (response[0]) {
-                res.status(200).json(response)
-            } else {
-                res.status(404).json({ code: res.statusCode, message: `Nenhum resultado encontrado com o id ${id}` })
-            }
-        } catch (error) {
-            res.status(500).json({ code: res.statusCode, error: error })
-        }
+        this.contextPostgres.findById(id)
+            .then(this.render(res, next))
+            .catch(next)
     }
 
-    create = (req: express.Request, res: express.Response) => {
-        try {
-            const { aluno } = req.body
-            this.contextPostgres.create(aluno)
-            res.status(200).json(aluno)
-        } catch (error) {
-            console.log(error)
-            res.status(500).json(error)
-        }
+    create = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        const { aluno } = req.body
+        this.contextPostgres.create(aluno)
+            .then(this.render(res, next))
+            .catch(next)
     }
 
-    update = (req: express.Request, res: express.Response) => {
-        res.json('Não implementado!')
+    update = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        const { id } = req.params
+        const { aluno } = req.body
+        this.contextPostgres.update(id, aluno)
+            .then(this.render(res, next))
+            .catch(next)
     }
 
     delete = (req: express.Request, res: express.Response) => {
