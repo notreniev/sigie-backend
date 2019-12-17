@@ -10,8 +10,7 @@ export class Postgres<T> extends ICrud {
         try {
             return await this.model.create(item)
         } catch (error) {
-            //console.log(error)
-            // apenas cadastra. Não precisa tratar exceção se CEP já existe
+            console.error(error)
         }
     }
 

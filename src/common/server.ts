@@ -5,6 +5,13 @@ import { Router } from '../interfaces/router.interface';
 import { config } from './config';
 var cors = require('cors')
 
+const corsOptions = {
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}
+
 export class Server {
 
   config = config(process.env.NODE_ENV || 'development')
@@ -14,8 +21,8 @@ export class Server {
   private load(): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
-        app.use(cors())
         app.use(bodyParser.json())
+        app.use(cors(corsOptions))
         app.listen(this.config.port, () => resolve(app))
       } catch (error) {
         reject(error)

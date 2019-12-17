@@ -64,4 +64,5 @@ services:
     links:
       - mongo
 
+      
     #docker exec -it sigie-node-api_mongo_1 mongo --host localhost -u root -p root --authenticationDatabase admin --eval "db.getSiblingDB('sgidb').createUser({user: 'root', pwd: 'root', roles: [{role: 'readWrite', db: 'sgidb'}]})"

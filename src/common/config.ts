@@ -4,8 +4,8 @@ export const config = (env: string) => ({
         "password": "root",
         "database": "sgidb",
         "host": "localhost",
-        "pghost": "localhost", //postgres
-        "mghost":"localhost", //mongo
+        "pghost": "postgres", //postgres
+        "mghost":"mongo", //mongo
         "dialect": "postgres",
         "dialectOptions": {
             "socketPath": '/var/run/postgresql/.s.PGSQL.5432'
