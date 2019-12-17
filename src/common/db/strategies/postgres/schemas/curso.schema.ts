@@ -5,7 +5,7 @@ export interface Curso extends Sequelize.Model {
     id: number,
     nome: string,
     duracao: string,
-    status: string
+    status: number
 }
 
 export interface CursoModel extends Sequelize.Model<Curso> {
@@ -29,7 +29,7 @@ export const CursoModel = postgresDB.define('curso', {
         allowNull: false
     },
     status: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
     }
 }, {

@@ -51,14 +51,13 @@ class CepRouter extends Router {
             const query = await this.contextPostgres.findByCep(cep)
             if (!query[0]){
                 const response = await this.getSoapDataAsync(url, {cep: cep})
-                console.log(`CEP ${cep} foi consultado nos correios e retornou`, response[0].return)
                 retorno['result'] = response[0].return
                 this.contextPostgres.create(response[0].return)
             }else{
-                retorno['result'] = query
+                retorno['result'] = query[0].dataValues
             }
         } catch (error) {
-            retorno['error'] = error?.cause?.root?.Envelope?.Body?.Fault?.faultstring
+            retorno['error'] = {code: 404, message: error?.cause?.root?.Envelope?.Body?.Fault?.faultstring}
         }
 
         res.send(retorno)

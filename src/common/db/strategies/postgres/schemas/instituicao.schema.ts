@@ -1,5 +1,16 @@
 import { postgresDB } from "../../../../db"
-const Sequelize = require('sequelize')
+import * as Sequelize from 'sequelize'
+
+export interface Instituicao extends Sequelize.Model {
+    id: number,
+    nome: string,
+    cnpj: string,
+    status: number
+}
+
+export interface CursoModel extends Sequelize.Model<Instituicao> {
+
+}
 
 export const InstituicaoModel = postgresDB.define('instituicao', {
     id: {
@@ -19,7 +30,7 @@ export const InstituicaoModel = postgresDB.define('instituicao', {
         unique: true
     },
     status: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
     }
 }, {

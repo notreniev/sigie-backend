@@ -8,12 +8,14 @@ export interface Aluno extends Sequelize.Model {
     data_nascimento: string,
     email: string,
     celular: string,
+    cep: string,
     endereco: string,
     numero: number,
+    complemento: string,
     bairro: string,
     cidade: string,
     uf: string,
-    status: string
+    status: number
 }
 
 export interface AlunoModel extends Sequelize.Model<Aluno> {
@@ -49,6 +51,10 @@ export const AlunoModel = postgresDB.define('aluno', {
         type: Sequelize.STRING,
         allowNull: true
     },
+    cep:{
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     endereco: {
         type: Sequelize.STRING,
         allowNull: false
@@ -56,6 +62,10 @@ export const AlunoModel = postgresDB.define('aluno', {
     numero: {
         type: Sequelize.INTEGER,
         allowNull: false
+    },
+    complemento: {
+        type: Sequelize.STRING,
+        allowNull: true
     },
     bairro: {
         type: Sequelize.STRING,
@@ -70,7 +80,7 @@ export const AlunoModel = postgresDB.define('aluno', {
         allowNull: false
     },
     status: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
     }
 }, {
