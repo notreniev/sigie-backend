@@ -26,7 +26,7 @@ services:
     environment: 
       POSTGRES_USER: "root"
       POSTGRES_PASSWORD: "root"
-      POSTGRES_DB: "sgidb"
+      POSTGRES_DB: "apmdb"
     volumes:
       - ~/dbsgidata:/var/lib/postgresql/data
 
@@ -39,7 +39,7 @@ services:
     environment: 
       MONGO_INITDB_ROOT_USERNAME: "root"
       MONGO_INITDB_ROOT_PASSWORD: "root"
-      MONGO_INITDB_DATABASE: "sgidb"
+      MONGO_INITDB_DATABASE: "apmdb"
     
   adminer:
     image: adminer
@@ -65,4 +65,4 @@ services:
       - mongo
 
       
-    #docker exec -it sigie-node-api_mongo_1 mongo --host localhost -u root -p root --authenticationDatabase admin --eval "db.getSiblingDB('sgidb').createUser({user: 'root', pwd: 'root', roles: [{role: 'readWrite', db: 'sgidb'}]})"
+    #docker exec -it apm-backend_mongo_1 mongo --host localhost -u root -p root --authenticationDatabase admin --eval "db.getSiblingDB('apmdb').createUser({user: 'root', pwd: 'root', roles: [{role: 'readWrite', db: 'apmdb'}]})"
