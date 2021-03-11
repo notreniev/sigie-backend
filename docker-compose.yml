@@ -5,9 +5,9 @@ services:
     build: .
     command: npm run dev
     restart: always
-    links: 
+    links:
       - postgres
-    depends_on: 
+    depends_on:
       - postgres
       - mongo
     volumes:
@@ -15,40 +15,40 @@ services:
       - /usr/app/node_modules
     ports:
       - "3100:3100"
-  
+
   postgres:
     image: postgres
     restart: always
-    ports: 
+    ports:
       - "5432:5432"
     expose:
       - 5432
-    environment: 
+    environment:
       POSTGRES_USER: "root"
       POSTGRES_PASSWORD: "root"
-      POSTGRES_DB: "apmdb"
+      POSTGRES_DB: "sgidb"
     volumes:
       - ~/dbsgidata:/var/lib/postgresql/data
 
   mongo:
     image: mongo
-    ports: 
+    ports:
       - "27017:27017"
     expose:
       - 27017
-    environment: 
+    environment:
       MONGO_INITDB_ROOT_USERNAME: "root"
       MONGO_INITDB_ROOT_PASSWORD: "root"
-      MONGO_INITDB_DATABASE: "apmdb"
-    
+      MONGO_INITDB_DATABASE: "sgidb"
+
   adminer:
     image: adminer
     restart: always
-    ports: 
+    ports:
       - "8080:8080"
-    depends_on: 
+    depends_on:
       - postgres
-    expose: 
+    expose:
       - 8080
 
   mongo-express:
@@ -64,5 +64,4 @@ services:
     links:
       - mongo
 
-      
     #docker exec -it apm-backend_mongo_1 mongo --host localhost -u root -p root --authenticationDatabase admin --eval "db.getSiblingDB('apmdb').createUser({user: 'root', pwd: 'root', roles: [{role: 'readWrite', db: 'apmdb'}]})"

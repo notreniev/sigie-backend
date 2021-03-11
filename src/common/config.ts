@@ -4,8 +4,8 @@ export const config = (env: string) => ({
         "password": "root",
         "database": "sgidb",
         "host": "localhost",
-        "pghost": "postgres", //postgres
-        "mghost":"mongo", //mongo
+        "pghost": "host.docker.internal", //postgres
+        "mghost": "host.docker.internal", //mongo
         "dialect": "postgres",
         "dialectOptions": {
             "socketPath": '/var/run/postgresql/.s.PGSQL.5432'
@@ -19,7 +19,7 @@ export const config = (env: string) => ({
         "database": "sgidb",
         "host": "localhost",
         "pghost": "postgres",
-        "mghost":"mongo",
+        "mghost": "mongo",
         "dialect": "postgres",
         "dialectOptions": {
             "socketPath": undefined
@@ -33,7 +33,7 @@ export const config = (env: string) => ({
         "password": "root",
         "database": "sgidb",
         "host": "localhost",
-        "mghost":"mongo",
+        "mghost": "mongo",
         "pghost": "postgres",
         "dialect": "postgres",
         "dialectOptions": {

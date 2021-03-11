@@ -1,16 +1,16 @@
 import * as mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
-export interface Log extends mongoose.Document{
+export interface Log extends mongoose.Document {
     timestamp: string,
     text: string
 }
 
-export interface LogModel extends mongoose.Model<Log>{
+export interface LogModel extends mongoose.Model<Log> {
     findByLog(text: string): Promise<Log>
 }
 
-const logSchema = new Schema({
+const logSchema = new Schema<Log>({
     timestamp: {
         type: String,
         allowNull: false

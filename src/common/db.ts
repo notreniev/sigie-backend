@@ -38,7 +38,7 @@ if (!postgresDb) {
 
 if (!mongoDb) {
     Mongoose.connect(`mongodb://${config.username}:${config.password}@${config.mghost}:27017/${config.database}`, {
-        useNewUrlParser: true
+        useNewUrlParser: true, useUnifiedTopology: true
     }, function (error) {
         if (!error) return
         console.log('-------------- Falha na conexão com Mongo!!', error)
