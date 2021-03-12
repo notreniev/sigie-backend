@@ -32,29 +32,37 @@ class AlunoRouter extends Router {
     }
 
     findById = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
         const { id } = req.params
+
         this.contextPostgres.findById(id)
             .then(this.render(res, next))
             .catch(next)
     }
 
     create = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
         const { aluno } = req.body
+
         this.contextPostgres.create(aluno)
             .then(this.render(res, next))
             .catch(next)
     }
 
     update = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
         const { id } = req.params
         const { aluno } = req.body
+
         this.contextPostgres.update(id, aluno)
             .then(this.render(res, next))
             .catch(next)
     }
 
     delete = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
         const { id } = req.params
+
         this.contextPostgres.delete(id)
             .then(this.render(res, next))
             .catch(next)
