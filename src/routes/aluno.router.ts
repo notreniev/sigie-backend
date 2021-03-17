@@ -6,7 +6,6 @@ import { AlunoModel } from "../common/db/strategies/postgres/schemas/aluno.schem
 import { Log as LogModel } from '../common/db/strategies/mongodb/schemas/log.schema';
 import { Postgres } from "../common/db/strategies/postgres/postgres";
 import { MongoDB } from "../common/db/strategies/mongodb/mongodb";
-import { handleError } from "../common/error-handler";
 
 class AlunoRouter extends Router {
     contextPostgres = null
