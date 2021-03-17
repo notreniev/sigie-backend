@@ -23,7 +23,6 @@ class AlunoRouter extends Router {
         application.post('/aluno', this.create)
         application.patch('/aluno/:id', this.update)
         application.delete('/aluno/:id', this.delete)
-
     }
 
     findAll = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
