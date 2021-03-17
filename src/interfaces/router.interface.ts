@@ -1,7 +1,8 @@
 import express = require('express')
 import { EventEmitter } from "events";
+import { reject } from 'bluebird';
 
-const notFound = {code: 404, message: 'Nenhum registro encontrado!'}
+const notFound = { code: 404, message: 'Nenhum registro encontrado!' }
 
 export abstract class Router extends EventEmitter {
     abstract applyRoutes(application: express.Application)
@@ -14,34 +15,51 @@ export abstract class Router extends EventEmitter {
         return documents
     }
 
-    render(res: express.Response, next: express.NextFunction) {
-        return (document) => {
+    render(res: express.Response, next: express.NextFunction, document?: any) {
+        try {
             if (document) {
                 this.emit('beforeRender', document)
                 res.status(200).json(this.envelope(document))
             } else {
-                res.status(404).json(this.envelope(notFound))
+                throw new Error();
+
             }
-            return next(false)
+            return next(false);
+        } catch (error) {
+            throw error;
         }
     }
 
-    renderAll(res: express.Response, next: express.NextFunction, options: any = {}) {
-        return (documents: any[]) => {
+    renderAll(res: express.Response, next: express.NextFunction, documents?: any[]) {
+        try {
             if (documents[0]) {
                 documents.forEach((document, index, array) => {
-                    this.emit('beforeRender', this.envelope(document))
+                    this.emit('beforeRender', this.envelope(document));
                     array[index] = document
                 })
-                res.status(200).json(this.envelopeAll(documents, options))
-            } else {
-                res.status(404).json(this.envelope(notFound))
+                res.status(200).json(this.envelopeAll(documents));
             }
             return next(false)
+        } catch (error) {
+            throw error;
         }
     }
 
+    handleError = (res: express.Response, next: express.NextFunction, error) => {
+        const err = ({
+            'TypeError': { 'code': 404, 'message': 'Nenhum registro encontrado!' },
+            'NotFoundError': { 'code': 404, 'message': 'Nenhum registro encontrado!' },
+            'RouteMissingError': { 'code': 400, 'message': 'Rota não encontrada!' },
+            'ValidationError': { 'code': 400, 'message': 'Erro de validaçào!' },
+            'ER_BAD_FIELD_ERROR': { 'code': 400, 'message': 'Erro ao consultar banco de dados!' },
+            'ResourceNotFoundError': { 'code': 400, 'message': 'Rota não encontrada!' },
+            'UniqueConstraintError': { 'code': 403, 'message': 'CPF já utilizado.' },
+            'SequelizeUniqueConstraintError': { 'code': 403, 'message': 'CPF já utilizado.' }
+        }[error.name] || { 'code': 500, 'message': 'Sua requisição não pode ser processada!' })
+
+        res.status(err.code).json(err);
+        next(false);
+
+    }
 
 }
-
-

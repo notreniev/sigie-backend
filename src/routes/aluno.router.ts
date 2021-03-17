@@ -6,6 +6,7 @@ import { AlunoModel } from "../common/db/strategies/postgres/schemas/aluno.schem
 import { Log as LogModel } from '../common/db/strategies/mongodb/schemas/log.schema';
 import { Postgres } from "../common/db/strategies/postgres/postgres";
 import { MongoDB } from "../common/db/strategies/mongodb/mongodb";
+import { handleError } from "../common/error-handler";
 
 class AlunoRouter extends Router {
     contextPostgres = null
@@ -26,46 +27,63 @@ class AlunoRouter extends Router {
     }
 
     findAll = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        this.contextPostgres.findAll()
-            .then(this.renderAll(res, next))
-            .catch(next)
+
+        try {
+            const result = await this.contextPostgres.findAll();
+            this.renderAll(res, next, result);
+        } catch (error) {
+            this.handleError(res, next, error);
+        }
     }
 
-    findById = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    findById = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 
         const { id } = req.params
 
-        this.contextPostgres.findById(id)
-            .then(this.render(res, next))
-            .catch(next)
+        try {
+            const result = await this.contextPostgres.findById(id);
+            this.render(res, next, result);
+        } catch (error) {
+            this.handleError(res, next, error);
+        }
     }
 
-    create = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    create = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 
         const { aluno } = req.body
 
-        this.contextPostgres.create(aluno)
-            .then(this.render(res, next))
-            .catch(next)
+        try {
+            const result = await this.contextPostgres.create(aluno);
+            this.render(res, next, result);
+        } catch (error) {
+            this.handleError(res, next, error);
+        }
     }
 
-    update = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    update = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 
         const { id } = req.params
         const { aluno } = req.body
 
-        this.contextPostgres.update(id, aluno)
-            .then(this.render(res, next))
-            .catch(next)
+        try {
+            const result = await this.contextPostgres.update(id, aluno);
+            this.render(res, next, result);
+        } catch (error) {
+            this.handleError(res, next, error);
+        }
+
     }
 
-    delete = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    delete = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 
         const { id } = req.params
 
-        this.contextPostgres.delete(id)
-            .then(this.render(res, next))
-            .catch(next)
+        try {
+            const result = await this.contextPostgres.delete(id);
+            this.render(res, next, result);
+        } catch (error) {
+            this.handleError(res, next, error);
+        }
     }
 }
 

@@ -10,7 +10,7 @@ export class Postgres<T> extends ICrud {
         try {
             return await this.model.create(item)
         } catch (error) {
-            console.error(error)
+            throw error;
         }
     }
 
@@ -18,7 +18,7 @@ export class Postgres<T> extends ICrud {
         try {
             return await this.model.findAll({ raw: true })
         } catch (error) {
-            return await error
+            throw error;
         }
     }
 

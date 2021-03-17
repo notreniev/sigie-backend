@@ -3,6 +3,7 @@ const app = express()
 const bodyParser = require('body-parser');
 import { Router } from '../interfaces/router.interface';
 import { config } from './config';
+import { handleError } from './error-handler';
 var cors = require('cors')
 
 const corsOptions = {
@@ -23,6 +24,7 @@ export class Server {
       try {
         app.use(bodyParser.json())
         app.use(cors(corsOptions))
+        app.use(handleError)
         app.listen(this.config.port, () => resolve(app))
       } catch (error) {
         reject(error)
