@@ -18,7 +18,7 @@ class AlunoRouter extends Router {
     }
 
     applyRoutes(application: Application): void {
-        application.get('/aluno', this.findAll)
+        application.get('/alunos', this.findAll)
         application.get('/aluno/:id', this.findById)
         application.post('/aluno', this.create)
         application.patch('/aluno/:id', this.update)

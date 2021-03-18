@@ -1,8 +1,5 @@
 import express = require('express')
 import { EventEmitter } from "events";
-import { reject } from 'bluebird';
-
-const notFound = { code: 404, message: 'Nenhum registro encontrado!' }
 
 export abstract class Router extends EventEmitter {
     abstract applyRoutes(application: express.Application)
@@ -20,9 +17,6 @@ export abstract class Router extends EventEmitter {
             if (document) {
                 this.emit('beforeRender', document)
                 res.status(200).json(this.envelope(document))
-            } else {
-                throw new Error();
-
             }
             return next(false);
         } catch (error) {
