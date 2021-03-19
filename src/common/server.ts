@@ -14,7 +14,7 @@ const corsOptions = {
 
 export class Server {
 
-  config = config(process.env.NODE_ENV || 'test')
+  config = config(process.env.NODE_ENV || 'development')
 
   constructor() { }
 

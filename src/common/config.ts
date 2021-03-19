@@ -1,25 +1,11 @@
 export const config = (env: string) => ({
-    "test": {
-        "username": "root",
-        "password": "root",
-        "database": "sgidb",
-        "host": "localhost",
-        "pghost": "host.docker.internal", //postgres
-        "mghost": "host.docker.internal", //mongo
-        "dialect": "postgres",
-        "dialectOptions": {
-            "socketPath": '/var/run/postgresql/.s.PGSQL.5432'
-        },
-        "debug": true,
-        "port": 3101
-    },
     "development": {
         "username": "root",
         "password": "root",
         "database": "sgidb",
         "host": "localhost",
-        "pghost": "host.docker.internal", //postgres
-        "mghost": "host.docker.internal", //mongo
+        "pghost": "postgres",
+        "mghost": "mongo",
         "dialect": "postgres",
         "dialectOptions": {
             "socketPath": '/var/run/postgresql/.s.PGSQL.5432'
