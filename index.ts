@@ -22,13 +22,13 @@ postgresDB.sync()
 
     server.bootstrap(routers)
       .then(() => {
-        console.log(`++++++++++++++ Servidor rodando em ${server.config.host + ':' + server.config.port}`)
+        console.log(`|||||||||||||| Servidor rodando em ${server.config.host + ':' + server.config.port}`)
       })
       .catch(error => {
-        console.log('-------------- Erro tentando subir o servidor!!')
+        console.log('xxxxxxxxxxxxxx Erro tentando subir o servidor!!')
         console.error(error)
         process.exit(1)
       })
 
-  }).catch(err => console.log('-------------- Erro na sincronização do modelo!!', err))
+  }).catch(err => console.log('xxxxxxxxxxxxxx Erro na sincronização do modelo!!', err))
 

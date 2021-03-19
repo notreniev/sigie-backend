@@ -27,10 +27,8 @@ if (!postgresDb) {
         })
 
     sequelize.authenticate()
-        .then(() => {
-            console.log('+++++++++++++ Postgres rodando!!')
-        })
-        .catch(err => console.log('-------------- Erro na conexão com o postgres!!', err))
+        .then(() => { })
+        .catch(err => console.error('xxxxxxxxxxxxxx Erro na conexão com o postgres!!', err))
 
     postgresDb['sequelize'] = sequelize
     postgresDb = <DBConnection>postgresDb
@@ -41,11 +39,11 @@ if (!mongoDb) {
         useNewUrlParser: true, useUnifiedTopology: true
     }, function (error) {
         if (!error) return
-        console.log('-------------- Falha na conexão com Mongo!!', error)
+        console.error('xxxxxxxxxxxxxx Falha na conexão com Mongo!!', error)
     })
 
     mongoDb = Mongoose.connection
-    mongoDb.once('open', () => console.log('+++++++++++++ Mongo rodando!!'))
+    mongoDb.once('open', () => { })
     mongoDb['connection'] = mongoDb
 }
 
