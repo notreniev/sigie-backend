@@ -40,7 +40,6 @@ export abstract class Router extends EventEmitter {
     }
 
     handleError = (res: express.Response, next: express.NextFunction, error) => {
-        console.log('\n\n\n\n error handler: ', error);
         const err = ({
             'TypeError': { 'code': 404, 'message': 'Nenhum registro encontrado!' },
             'NotFoundError': { 'code': 404, 'message': 'Nenhum registro encontrado!' },

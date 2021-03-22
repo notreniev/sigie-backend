@@ -65,12 +65,9 @@ class AlunoRouter extends Router {
         const { id } = req.params
         const { aluno } = req.body
 
-        console.log('aluno e id em update: ', id, aluno);
-
         try {
             let result = await this.contextPostgres.update(id, aluno);
             result = aluno;
-            console.log('result no update: ', result);
             this.render(res, next, result);
         } catch (error) {
             this.handleError(res, next, error);
@@ -83,7 +80,8 @@ class AlunoRouter extends Router {
         const { id } = req.params
 
         try {
-            const result = await this.contextPostgres.delete(id);
+            let result = await this.contextPostgres.delete(id);
+            // result = { id: id };
             this.render(res, next, result);
         } catch (error) {
             this.handleError(res, next, error);
