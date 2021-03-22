@@ -20,8 +20,8 @@ test('if it gets /alunos', () => {
         }).catch(fail);
 });
 
-test('if it patches /aluno/:id', () => {
-    return request(address)
+test('if it patches /aluno/:id', async () => {
+    return await request(address)
         .post('/aluno')
         .send({
             aluno: {
