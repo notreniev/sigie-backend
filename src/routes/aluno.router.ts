@@ -55,6 +55,7 @@ class AlunoRouter extends Router {
             const result = await this.contextPostgres.create(aluno);
             this.render(res, next, result);
         } catch (error) {
+            console.log('error no aluno.create: ', error);
             this.handleError(res, next, error);
         }
     }
@@ -64,8 +65,12 @@ class AlunoRouter extends Router {
         const { id } = req.params
         const { aluno } = req.body
 
+        console.log('aluno e id em update: ', id, aluno);
+
         try {
-            const result = await this.contextPostgres.update(id, aluno);
+            let result = await this.contextPostgres.update(id, aluno);
+            result = aluno;
+            console.log('result no update: ', result);
             this.render(res, next, result);
         } catch (error) {
             this.handleError(res, next, error);
