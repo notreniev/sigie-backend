@@ -12,7 +12,7 @@ const aluno = {
     }
 }
 
-test('if it gets /alunos', () => {
+it('if it gets /alunos', () => {
     return request(address).get('/alunos')
         .then(response => {
             expect(response.status).toBe(200)
@@ -20,7 +20,7 @@ test('if it gets /alunos', () => {
         }).catch(fail);
 });
 
-test('if it patches /aluno/:id', async () => {
+it('if it patches /aluno/:id', async () => {
     return await request(address)
         .post('/aluno')
         .send({
@@ -53,7 +53,7 @@ test('if it patches /aluno/:id', async () => {
         .catch(fail)
 })
 
-test('if it deletes /aluno/:id', async () => {
+it('if it deletes /aluno/:id', async () => {
     return await request(address)
         .post('/aluno')
         .send({
@@ -73,8 +73,7 @@ test('if it deletes /aluno/:id', async () => {
             expect(response.body.email).toBe('usuario2@email.com')
             return response
         })
-        .then(response => request(address)
-            .delete(`/aluno/${response.body.id}`))
+        .then(response => request(address).del(`/aluno/${response.body.id}`))
         .then(response => {
             expect(response.status).toBe(200)
             expect(response.body).toEqual(1);
