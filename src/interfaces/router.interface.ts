@@ -31,10 +31,8 @@ export abstract class Router extends EventEmitter {
                     this.emit('beforeRender', this.envelope(document));
                     array[index] = document
                 })
-                res.status(200).json(this.envelopeAll(documents));
-            } else {
-                throw new Error()
             }
+            res.status(200).json(this.envelopeAll(documents));
         } catch (error) {
             throw "{ \"name\": \"NotFoundError\" }";
         }
