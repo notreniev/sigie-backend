@@ -32,14 +32,17 @@ export abstract class Router extends EventEmitter {
                     array[index] = document
                 })
                 res.status(200).json(this.envelopeAll(documents));
+            } else {
+                throw new Error()
             }
-            return next(false)
         } catch (error) {
-            throw error;
+            throw "{ \"name\": \"NotFoundError\" }";
         }
     }
 
-    handleError = (res: express.Response, next: express.NextFunction, error) => {
+    handleError = (res: express.Response, next: express.NextFunction, error: any = {}) => {
+        error = JSON.parse(error);
+
         const err = ({
             'TypeError': { 'code': 404, 'message': 'Nenhum registro encontrado!' },
             'NotFoundError': { 'code': 404, 'message': 'Nenhum registro encontrado!' },
@@ -49,7 +52,7 @@ export abstract class Router extends EventEmitter {
             'ResourceNotFoundError': { 'code': 400, 'message': 'Rota não encontrada!' },
             'UniqueConstraintError': { 'code': 403, 'message': 'CPF já utilizado.' },
             'SequelizeUniqueConstraintError': { 'code': 403, 'message': 'CPF já utilizado.' }
-        }[error.name] || { 'code': 500, 'message': 'Sua requisição não pode ser processada!' })
+        }[error.name || error] || { 'code': 500, 'message': 'Sua requisição não pode ser processada!' })
 
         res.status(err.code).json(err);
         next(false);
